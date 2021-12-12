@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+ 
+<html>
+
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<style>
+ 	#main {
+             
+            display: flex;
+            flex-wrap: wrap;
+        }
+	body {
+		background-image: url(flower.jpg);
+		background-attachment: fixed;
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: cover;
+		opacity: .96;
+		background-color:#ffe6e6;
+ 
+	}
+        .main_div{
+		max-width:300px;
+        border: 1px double #ff4d94;
+        
+        border-radius: 20px 20px 20px 20px;
+     	
+  
+	}
+	.title_div{
+		background-color:#cc0044;
+		color:#ffe6ff;
+		padding: 25px;
+		font-size:140%;
+		border-radius: 20px 20px 0px 0px;
+		
+       }
+
+	.input_div{
+		
+		padding:10px;
+		background-color: white;
+	}
+	.button_div{
+
+		padding:10px;
+		background-color: white;
+		border-radius: 0px 0px 20px 20px;
+
+	}
+	.completed{
+	 	color:#e6b800;
+		opacity: .50;
+
+	}
+	.setting_div1{
+
+		font-size:90%;
+		padding:10px;
+		border: 1px double #cc0044;
+		color:#cc0044;
+		width:280px;
+		border-radius: 20px 20px 20px 20px;
+		background-color: white;	
+	        margin-top: 5px;
+	}
+	.setting_add2{
+
+		padding:10px;
+		background-color: white;
+		border-radius: 0px 0px 10px 10px;
+	}
+	.todo1{
+
+		margin:10px; 
+		width:280px;
+
+	}
+	
+	textarea{
+		margin-top: 5px;
+		width:90%;
+		height:150px;
+	}
+	button{
+	color:#cc0044;
+	margin-top: 6px;
+	}
+	
+	#add_title{
+
+		height:30px;
+		overflow: auto;
+
+	}
+	#add_content{
+
+		height:150px;
+		word-break: keep-all;
+		overflow: auto;
+
+	}
+	
+</style>
+
+</head>
+
+<body>
+
+​<center>
+
+<div class="main_div" >
+
+    <div class="title_div"  >
+    New todo
+    </div>
+
+    <div class="input_div">
+    	<input type="text" style="width:90%;" id="title" placeholder="add todo">
+
+    	<textarea id="content" placeholder="content" ></textarea>
+
+    </div>
+
+    <div class="button_div">
+
+    	<button type="submit" id="add">Add todo</button>
+
+    </div>
+ 
+</div>
+
+<div class="setting_div1">
+
+	<label > all</label >
+
+		<input type="radio" name="show" value="all" checked>
+
+​  	<label >completed</label>
+
+​  		<input type="radio" name="show" value="completed">
+
+​	<label >not completed</label>
+
+​		<input type="radio" name="show" value="not_completed">
+
+	<button type="submit" style=" width:250px;" id="reset">reset all</button>
+</div >
+
+</center>
+
+<div id="main" >
+
+</div>
+
+<div class="todo"  style="display:none;">
+
+    <div class="todo1" >
+
+    <center>
+    <div id="add_title" class="title_div" >
+   
+    </div>
+
+    <div  id="add_content" class="input_div">
+  
+    </div>
+
+    <div class="setting_add2" >
+
+    <button id="mark_down" style="margin:8px"> Mark done</button>
+
+    <button id="remove" style="color:#e6b800;margin:8px">Remove todo</button>
+
+    </div>
+
+    </center>
+
+  </div>
+
+</div>
+
+</body>
+
+<script>
+
+$(document).ready(function(){
+
+  $("#add").click(function(){
+
+      var titles= document.getElementById("title").value;  
+      var contents=document.getElementById("content").value;
+
+      if(titles == ''){
+
+                    alert("title can't be empty");
+	}
+
+	else{
+
+		$("#main").append(
+                $(".todo").html()
+		
+		)
+ 	        
+		$("#main").find(".title_div:last").append(titles);
+                $("#main").find(".input_div:last").append(contents);
+  		
+		
+	}
+  });
+
+
+  $(document).on('click', '#remove', function(){
+
+	$(this).parent().parent().parent().css("display","none")
+
+            });
+
+
+ $(document).on('click', '#reset', function(){
+	
+	$("#main").find(".todo1").css("display","block")
+
+	$("#main").find(".todo1.completed").removeClass('completed')
+
+	if($("input[name=show]:checked").val() == "completed"){
+
+                       $('.todo1').hide();
+
+                    }
+
+	  });
+ $(document).on('click', '#mark_down', function(){
+
+	let todo1 = $(this).parent().parent().parent();
+               
+	if(todo1.hasClass('completed')){
+
+                    todo1.removeClass('completed');
+
+                    if($("input[name=show]:checked").val() == "completed"){
+
+                        todo1.hide();
+
+                    }
+                } 
+
+                 else {
+
+                    todo1.addClass('completed');  
+
+			if($("input[name=show]:checked").val() == "not_completed"){
+
+                         todo1.hide();
+
+                    } 
+                }
+            });
+
+           $("input[name=show]").click(function(){
+
+                if($(this).val() == "all"){
+                    $('.todo1').show();
+                      $('.todo1.completed').show();
+
+                } else if($(this).val() == "completed"){
+                   $('.todo1').hide();
+                    $('.todo1.completed').show();
+                    
+                } else {
+                    $('.todo1').show();
+                    $('.todo1.completed').hide();
+
+                }
+            })
+       })
+
+</script>
+
+
+
+</html>
